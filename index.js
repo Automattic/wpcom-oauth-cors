@@ -40,12 +40,14 @@ function IOAuth(client_id, opts){
   // authentication request params
   var params = exports.params = {
     client_id: client_id,
-    response_type: 'token'
+    response_type: opts.response_type || 'token'
   };
 
   // options - `Redirect URL`
   params.redirect_uri = opts.redirect || location.href.replace(/\#.*$/, '');
   debug('Redirect_URL: %o', params.redirect_uri);
+
+  if (opts.scope) params.score = opts.scope;
 
   return IOAuth;
 }
