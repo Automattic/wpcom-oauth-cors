@@ -6,9 +6,6 @@
 var url = require('url');
 var querystring = require('querystring');
 
-// parse the current URL, in case of an OAuth token response
-var parsed = url.parse(location.href, true);
-
 /**
  * Expose `IOAuth` function
  */
@@ -17,8 +14,19 @@ module.exports = IOAuth;
 
 /**
  * Handler WordPress.com implicit open authentication
+ *
+ * @param {String} client_id
+ * @param {Object} opts
+ * @return {Function}
  */
 
-function IOAuth(fn){
+function IOAuth(client_id, opts){
+  opts = opts || {};
 
+  if (!client_id) {
+    throw '`client_id` is undefined';
+  }
+
+  return function(fn){
+  };
 }
