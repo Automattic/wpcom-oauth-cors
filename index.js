@@ -81,13 +81,13 @@ exports.get = function(fn){
 };
 
 /**
- * Reset authentication
+ * Clean authentication from store
  *
  * @api public
  */
 
-exports.reset = function(){
-  debug('reset');
+exports.clean = function(){
+  debug('clean');
   delete localStorage.ioauth;
 };
 
