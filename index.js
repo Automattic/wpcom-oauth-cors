@@ -102,4 +102,14 @@ exports.request = function(){
   var redirect = authorizeEndpoint + '?' + querystring.stringify(exports.params);
   debug('Redirect url: %o', redirect);
   window.location = redirect;
+};
+
+/**
+ * Return authentication object
+ *
+ * @api public
+ */
+
+exports.token = function(){
+  return localStorage.ioauth ? JSON.parse(localStorage.ioauth) : null;
 }
