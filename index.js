@@ -5,6 +5,7 @@
 
 var url = require('url');
 var querystring = require('querystring');
+var debug = require('debug')('ioauth');
 
 /**
  * Expose `IOAuth` function
@@ -26,6 +27,8 @@ function IOAuth(client_id, opts){
   if (!client_id) {
     throw '`client_id` is undefined';
   }
+
+  debug('client_id: %o', client_id);
 
   return function(fn){
   };
