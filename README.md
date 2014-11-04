@@ -12,9 +12,16 @@ Implicit Open Auth client-side module for WordPress.com
 ```js
 var iOAuth = require('ioauth')('<client-id>');
 
-iOAuth(function(token){
-  // your `token` is here!!!
+// get auth object
+iOAuth.get(function(auth){
+  // your token is here auth.access_token!
 });
+
+// clean stored token
+iOAuth.clean();
+
+// get stored token
+var auth = iOAuth.token();
 ```
 
 ## Test
