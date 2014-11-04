@@ -8,6 +8,12 @@ var querystring = require('querystring');
 var debug = require('debug')('ioauth');
 
 /**
+ * Authotize WordPress.com endpoint
+ */
+
+var authorizeEndpoint = 'https://public-api.wordpress.com/oauth2/authorize';
+
+/**
  * Expose `IOAuth` function
  */
 
@@ -57,5 +63,30 @@ function IOAuth(client_id, opts){
     if (url_parsed.hash && url_parsed.hash.length > 1) {
       hash = querystring.parse(url_parsed.hash.substring(1));
     }
+
+    if (hash && hash.access_token) {
+      // Token is present in current URI
+      // store access_token
+      localStorage.ioauth = JSON.stringify(hash);
+    } else if (!localStorage.ioauth) {
+      auth();
+    }
+
+    fn(JSON.parse(localStorage.ioauth));
   };
+
+  /**
+   * Authentication request
+   *
+   * @api private
+   */
+
+  function auth () {
+    // redirect to OAuth page
+    console.log('-> params -> ', params);
+    var redirect = authorizeEndpoint + '?' + querystring.stringify(params);
+    debug('Redirect url: %o', redirect);
+
+    window.location = redirect;
+  }
 }
