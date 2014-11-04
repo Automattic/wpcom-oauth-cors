@@ -17,7 +17,7 @@ var authorizeEndpoint = 'https://public-api.wordpress.com/oauth2/authorize';
  * Expose `IOAuth` function
  */
 
-module.exports = IOAuth;
+exports = module.exports = IOAuth;
 
 /**
  * Handler WordPress.com implicit open authentication
@@ -38,7 +38,7 @@ function IOAuth(client_id, opts){
   opts = opts || {};
 
   // authentication request params
-  var params = {
+  var params = exports.params = {
     client_id: client_id,
     response_type: 'token'
   };
@@ -47,46 +47,57 @@ function IOAuth(client_id, opts){
   params.redirect_uri = opts.redirect || location.href.replace(/\#.*$/, '');
   debug('Redirect_URL: %o', params.redirect_uri);
 
-  /**
-   * Return implicit oauth function
-   *
-   * @param {Function} fn
-   * @api public
-   */
+  return IOAuth;
+}
 
-  return function(fn){
-    // get url parsed object
-    var url_parsed = url.parse(location.href, true);
+/**
+ * Return implicit oauth function
+ *
+ * @param {Function} fn
+ * @api public
+ */
 
-    // get hash object
-    var hash;
-    if (url_parsed.hash && url_parsed.hash.length > 1) {
-      hash = querystring.parse(url_parsed.hash.substring(1));
-    }
+exports.get = function(fn){
+  fn = fn || function(){};
 
-    if (hash && hash.access_token) {
-      // Token is present in current URI
-      // store access_token
-      localStorage.ioauth = JSON.stringify(hash);
-    } else if (!localStorage.ioauth) {
-      auth();
-    }
+  // get url parsed object
+  var url_parsed = url.parse(location.href, true);
 
-    fn(JSON.parse(localStorage.ioauth));
-  };
-
-  /**
-   * Authentication request
-   *
-   * @api private
-   */
-
-  function auth () {
-    // redirect to OAuth page
-    console.log('-> params -> ', params);
-    var redirect = authorizeEndpoint + '?' + querystring.stringify(params);
-    debug('Redirect url: %o', redirect);
-
-    window.location = redirect;
+  // get hash object
+  var hash;
+  if (url_parsed.hash && url_parsed.hash.length > 1) {
+    hash = querystring.parse(url_parsed.hash.substring(1));
   }
+
+  if (hash && hash.access_token) {
+    // Token is present in current URI
+    // store access_token
+    localStorage.ioauth = JSON.stringify(hash);
+  } else if (!localStorage.ioauth) {
+    return exports.request();
+  }
+
+  fn(JSON.parse(localStorage.ioauth));
+};
+
+/**
+ * Reset authentication
+ */
+
+exports.reset = function(){
+  debug('reset');
+  delete localStorage.ioauth;
+};
+
+/**
+ * Authentication request
+ *
+ * @api private
+ */
+
+exports.request = function(){
+  // redirect to OAuth page
+  var redirect = authorizeEndpoint + '?' + querystring.stringify(exports.params);
+  debug('Redirect url: %o', redirect);
+  window.location = redirect;
 }
