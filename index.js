@@ -39,9 +39,7 @@ function IOAuth(client_id, opts){
 
   // options - `Redirect URL`
   params.redirect_uri = opts.redirect || location.href.replace(/\#.*$/, '');
-
   debug('Redirect_URL: %o', params.redirect_uri);
-
 
   /**
    * Return implicit oauth function
@@ -49,7 +47,15 @@ function IOAuth(client_id, opts){
    * @param {Function} fn
    * @api public
    */
-  
+
   return function(fn){
+    // get url parsed object
+    var url_parsed = url.parse(location.href, true);
+
+    // get hash object
+    var hash;
+    if (url_parsed.hash && url_parsed.hash.length > 1) {
+      hash = querystring.parse(url_parsed.hash.substring(1));
+    }
   };
 }
