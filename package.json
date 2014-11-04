@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Implicit Open Authentication client-side module",
   "dependencies": {
+    "debug": "2.1.0"
   },
   "devDependencies": {
     "browserify": "5.10.1"
