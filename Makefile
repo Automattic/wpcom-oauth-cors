@@ -22,4 +22,9 @@ init:
 	npm install
 	make build
 
-.PHONY: init
+test:
+	@$(BROWSERIFY) \
+		test/app.js \
+		> test/test.js
+
+.PHONY: build init test
