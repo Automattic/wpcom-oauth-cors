@@ -20,11 +20,11 @@ var authorizeEndpoint = 'https://public-api.wordpress.com/oauth2/authorize';
 exports = module.exports = IOAuth;
 
 /**
- * Handler WordPress.com implicit open authentication
+ * Handle WordPress.com Implicit Open Authentication
  *
  * @param {String} client_id
- * @param {Object} opts
- * @return {Function}
+ * @param {Object} [opts]
+ * @api public
  */
 
 function IOAuth(client_id, opts){
@@ -51,9 +51,9 @@ function IOAuth(client_id, opts){
 }
 
 /**
- * Return implicit oauth function
+ * Get token authentication object
  *
- * @param {Function} fn
+ * @param {Function} [fn]
  * @api public
  */
 
@@ -82,6 +82,8 @@ exports.get = function(fn){
 
 /**
  * Reset authentication
+ *
+ * @api public
  */
 
 exports.reset = function(){
@@ -90,9 +92,9 @@ exports.reset = function(){
 };
 
 /**
- * Authentication request
+ * Make WordPress.com implicit oauth request
  *
- * @api private
+ * @api public
  */
 
 exports.request = function(){
