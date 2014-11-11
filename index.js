@@ -75,6 +75,9 @@ exports.get = function(fn){
     // Token is present in current URI
     // store access_token
     localStorage.ioauth = JSON.stringify(hash);
+
+    // clean hash from current URI
+    window.location = location.href.replace(/\#.*$/, '');
   } else if (!localStorage.ioauth) {
     return exports.request();
   }
@@ -114,4 +117,4 @@ exports.request = function(){
 
 exports.token = function(){
   return localStorage.ioauth ? JSON.parse(localStorage.ioauth) : null;
-}
+};
