@@ -1,6 +1,6 @@
 {
   "name": "ioauth",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Implicit Open Authentication client-side module",
   "dependencies": {
     "debug": "2.1.0"
