@@ -24,6 +24,18 @@ iOAuth.clean();
 var auth = iOAuth.token();
 ```
 
+## API
+
+### IOAuth(client_id, params)
+
+Create a IOAuth instance with given `client_id` (String) and optional params object
+
+**params**:
+
+* `redirect_uri`
+* `response_type`
+* `scope`
+
 ## Test
 
 * Compile testing js file
