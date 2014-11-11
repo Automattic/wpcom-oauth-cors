@@ -48,11 +48,7 @@ function IOAuth(client_id, opts){
   params.redirect_uri = opts.redirect || location.href.replace(/\#.*$/, '');
   debug('Redirect_URL: %o', params.redirect_uri);
 
-  // put here allow parameters
-  var allow = ['scope'];
-  for (var i = 0; i < allow.length; i++) {
-    if (opts[allow[i]]) params[allow[i]] = opts[allow[i]];
-  }
+  if (opts.scope) params.scope = opts.scope;
 
   return IOAuth;
 }
@@ -80,6 +76,9 @@ exports.get = function(fn){
     // Token is present in current URI
     // store access_token
     localStorage.ioauth = JSON.stringify(hash);
+
+    // clean hash from current URI
+    window.location = location.href.replace(/\#.*$/, '');
   } else if (!localStorage.ioauth) {
     return exports.request();
   }
@@ -119,7 +118,7 @@ exports.request = function(){
 
 exports.token = function(){
   return localStorage.ioauth ? JSON.parse(localStorage.ioauth) : null;
-}
+};
 
 },{"debug":7,"querystring":5,"url":6}],2:[function(require,module,exports){
 (function (global){
@@ -1987,7 +1986,7 @@ function plural(ms, n, name) {
  * Module dependencies.
  */
 
-var iOAuth = require('../')("37508", { scope: 'global' });
+var iOAuth = require('../')("37508");
 
 iOAuth.get(function(auth){
   document.getElementById('token').innerHTML = auth.access_token;
