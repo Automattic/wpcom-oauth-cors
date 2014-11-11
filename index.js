@@ -47,7 +47,7 @@ function IOAuth(client_id, opts){
   params.redirect_uri = opts.redirect || location.href.replace(/\#.*$/, '');
   debug('Redirect_URL: %o', params.redirect_uri);
 
-  if (opts.scope) params.score = opts.scope;
+  if (opts.scope) params.scope = opts.scope;
 
   return IOAuth;
 }
