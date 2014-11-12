@@ -110,6 +110,15 @@ exports.request = function(){
 };
 
 /**
+ * Clean and request a new token
+ */
+
+exports.reset = function(){
+  exports.clean();
+  exports.request();
+};
+
+/**
  * Return authentication object
  *
  * @api public
