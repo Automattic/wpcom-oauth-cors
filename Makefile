@@ -16,7 +16,7 @@ BROWSERIFY ?= $(NODE) $(BIN)/browserify
 build:
 	@$(BROWSERIFY) \
 		index.js \
-		> dist/ioauth.js
+		> dist/wpcom-oauth.js
 
 init:
 	npm install
