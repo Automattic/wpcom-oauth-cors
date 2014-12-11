@@ -6,7 +6,7 @@
 
 var url = require('url');
 var querystring = require('querystring');
-var debug = require('debug')('ioauth');
+var debug = require('debug')('wpcom-oauth');
 
 /**
  * Authotize WordPress.com endpoint
@@ -15,10 +15,10 @@ var debug = require('debug')('ioauth');
 var authorizeEndpoint = 'https://public-api.wordpress.com/oauth2/authorize';
 
 /**
- * Expose `IOAuth` function
+ * Expose `wpOAuth` function
  */
 
-exports = module.exports = IOAuth;
+exports = module.exports = wpOAuth;
 
 /**
  * Handle WordPress.com Implicit Open Authentication
@@ -28,7 +28,7 @@ exports = module.exports = IOAuth;
  * @api public
  */
 
-function IOAuth(client_id, opts){
+function wpOAuth(client_id, opts){
   // `Client ID` must be defined
   if (!client_id) {
     throw '`client_id` is undefined';
@@ -50,7 +50,7 @@ function IOAuth(client_id, opts){
 
   if (opts.scope) params.scope = opts.scope;
 
-  return IOAuth;
+  return wpOAuth;
 }
 
 /**
@@ -75,15 +75,15 @@ exports.get = function(fn){
   if (hash && hash.access_token) {
     // Token is present in current URI
     // store access_token
-    localStorage.ioauth = JSON.stringify(hash);
+    localStorage.wp_oauth = JSON.stringify(hash);
 
     // clean hash from current URI
     window.location = location.href.replace(/\#.*$/, '');
-  } else if (!localStorage.ioauth) {
+  } else if (!localStorage.wp_oauth) {
     return exports.request();
   }
 
-  fn(JSON.parse(localStorage.ioauth));
+  fn(JSON.parse(localStorage.wp_oauth));
 };
 
 /**
@@ -94,7 +94,7 @@ exports.get = function(fn){
 
 exports.clean = function(){
   debug('clean');
-  delete localStorage.ioauth;
+  delete localStorage.wp_oauth;
 };
 
 /**
@@ -111,13 +111,22 @@ exports.request = function(){
 };
 
 /**
+ * Clean and request a new token
+ */
+
+exports.reset = function(){
+  exports.clean();
+  exports.request();
+};
+
+/**
  * Return authentication object
  *
  * @api public
  */
 
 exports.token = function(){
-  return localStorage.ioauth ? JSON.parse(localStorage.ioauth) : null;
+  return localStorage.wp_oauth ? JSON.parse(localStorage.wp_oauth) : null;
 };
 
 },{"debug":7,"querystring":5,"url":6}],2:[function(require,module,exports){
