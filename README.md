@@ -1,34 +1,34 @@
-ioauth
-======
+wpcom-oauth
+===========
 
 Implicit Open Auth client-side module for WordPress.com
 
 ```cli
-> npm install ioauth
+> npm install wpcom-oauth
 ```
 
 # How to use
 
 ```js
-var iOAuth = require('ioauth')('<client-id>');
+var wpcomOAuth = require('wpcom-oauth')('<client-id>');
 
 // get auth object
-iOAuth.get(function(auth){
+wpcomOAuth.get(function(auth){
   // your token is here auth.access_token!
 });
 
 // clean stored token
-iOAuth.clean();
+wpcomOAuth.clean();
 
 // get stored token
-var auth = iOAuth.token();
+var auth = wpcomOAauth.token();
 ```
 
 ## API
 
-### IOAuth(client_id, params)
+### wpcomOAuth(client_id, params)
 
-Create a IOAuth instance with given `client_id` (String) and optional params object
+Create a wpcomOAuth instance giving `client_id` (String) and optional parameters object
 
 **params**:
 
