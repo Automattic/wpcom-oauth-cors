@@ -36,6 +36,16 @@ Create a wpcomOAuth instance giving `client_id` (String) and optional parameters
 * `response_type`
 * `scope`
 
+### wpcomOAuth.get(fn)
+
+### wpcomOAuth.clean()
+
+### wpcomOAuth.request()
+
+### wpcomOAuth.reset()
+
+### wpcomOAuth.token()
+
 ## Test
 
 * Compile testing js file
