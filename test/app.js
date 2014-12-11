@@ -11,7 +11,6 @@ wpOAuth.get(function(auth){
 
 document.getElementById('reset').onclick = function(e) {
   wpOAuth.clean();
-  //wpOAuth.request();
 };
 
 console.log('-> wpOAuth.token() -> ', wpOAuth.token());
