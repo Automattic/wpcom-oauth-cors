@@ -1,7 +1,7 @@
 {
-  "name": "ioauth",
-  "version": "0.0.4",
-  "description": "Implicit Open Authentication client-side module",
+  "name": "wpcom-oauth",
+  "version": "0.0.5",
+  "description": "Implicit open authentication client-side module for WordPress",
   "dependencies": {
     "debug": "2.1.0"
   },
