@@ -6,6 +6,14 @@
   "dependencies": {
     "debug": "2.1.0"
   },
+  "author": "Automattic, Inc.",
+  "contributors": [
+    "Damian Suarez <rdsuarez@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Automattic/wpcom-oauth.git"
+  },
   "devDependencies": {
     "browserify": "5.10.1"
   }
