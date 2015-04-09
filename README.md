@@ -3,8 +3,9 @@ wpcom-oauth-cors
 
 [WordPress.com](http://wordpress.com)
 [implicit OAuth2](http://tutorials.jenkov.com/oauth2/authorization.html#implicit)
-**client-side** authorization module.  The **server-side** (Node.js)
-counterpart to this module is
+**client-side** authorization module.
+
+The **server-side** (Node.js) counterpart to this module is
 [`wpcom-oauth`](https://github.com/Automattic/node-wpcom-oauth).
 
 ```cli
