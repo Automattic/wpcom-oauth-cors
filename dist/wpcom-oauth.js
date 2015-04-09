@@ -128,7 +128,6 @@ exports.reset = function(){
 exports.token = function(){
   return localStorage.wp_oauth ? JSON.parse(localStorage.wp_oauth) : null;
 };
-
 },{"debug":7,"querystring":5,"url":6}],2:[function(require,module,exports){
 (function (global){
 /*! http://mths.be/punycode v1.2.4 by @mathias */
