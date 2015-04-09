@@ -1,4 +1,14 @@
 
+1.0.0 / 2015-04-09
+==================
+
+  * Match readme spacing from node-wpcom-oauth
+  * Fix repo name
+  * Update distribution files too
+  * Missed a couple of spots
+  * Change package name to wpcom-oauth-cors and update docs
+  * pkg: add author, contributors and repository
+
 0.0.5 / 2014-12-11
 ==================
 

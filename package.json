@@ -1,7 +1,6 @@
-
 {
   "name": "wpcom-oauth-cors",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "WordPress.com implicit OAuth2 client-side authorization module",
   "dependencies": {
     "debug": "2.1.0"
