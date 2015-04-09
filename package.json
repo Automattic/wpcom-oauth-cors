@@ -1,8 +1,8 @@
 
 {
-  "name": "wpcom-oauth",
+  "name": "wpcom-oauth-cors",
   "version": "0.0.5",
-  "description": "Implicit open authentication client-side module for WordPress",
+  "description": "WordPress.com implicit OAuth2 client-side authorization module",
   "dependencies": {
     "debug": "2.1.0"
   },
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/Automattic/wpcom-oauth.git"
+    "url": "git://github.com/Automattic/wpcom-oauth-cors.git"
   },
   "devDependencies": {
     "browserify": "5.10.1"

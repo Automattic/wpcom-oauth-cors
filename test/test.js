@@ -6,7 +6,7 @@
 
 var url = require('url');
 var querystring = require('querystring');
-var debug = require('debug')('wpcom-oauth');
+var debug = require('debug')('wpcom-oauth-cors');
 
 /**
  * Authotize WordPress.com endpoint
