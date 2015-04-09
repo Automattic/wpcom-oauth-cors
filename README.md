@@ -1,5 +1,5 @@
-wpcom-oauth
-===========
+wpcom-oauth-cors
+================
 
 [WordPress.com](http://wordpress.com)
 [implicit OAuth2](http://tutorials.jenkov.com/oauth2/authorization.html#implicit)
@@ -14,7 +14,7 @@ counterpart to this module is
 # How to use
 
 ```js
-var wpcomOAuth = require('wpcom-oauth')('<client-id>');
+var wpcomOAuth = require('wpcom-oauth-cors')('<client-id>');
 
 // get auth object
 wpcomOAuth.get(function(auth){
