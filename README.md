@@ -1,10 +1,14 @@
 wpcom-oauth
 ===========
 
-Implicit Open Auth client-side module for WordPress.com
+[WordPress.com](http://wordpress.com)
+[implicit OAuth2](http://tutorials.jenkov.com/oauth2/authorization.html#implicit)
+**client-side** authorization module.  The **server-side** (Node.js)
+counterpart to this module is
+[`wpcom-oauth`](https://github.com/Automattic/node-wpcom-oauth).
 
 ```cli
-> npm install wpcom-oauth
+> npm install wpcom-oauth-cors
 ```
 
 # How to use
