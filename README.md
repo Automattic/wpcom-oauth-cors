@@ -37,7 +37,7 @@ Create a wpcomOAuth instance giving `client_id` (String) and optional parameters
 
 **params**:
 
-* `redirect_uri`
+* `redirect`
 * `response_type`
 * `scope`
 
