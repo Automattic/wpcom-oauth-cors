@@ -23,6 +23,7 @@ init:
 	make build
 
 test:
+	npm test
 	@$(BROWSERIFY) \
 		test/app.js \
 		> test/test.js
