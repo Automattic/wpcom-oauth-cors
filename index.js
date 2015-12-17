@@ -45,6 +45,7 @@ function wpOAuth(client_id, opts){
   // authentication request params
   var params = exports.params = {
     client_id: client_id,
+    blog: opts.blog,
     response_type: opts.response_type || 'token'
   };
 

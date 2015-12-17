@@ -46,6 +46,11 @@ describe( 'wpOAuth()', function() {
 		expect( auth.params.scope ).to.equal( 'barfoo' );
 	} );
 
+	it( 'sets params.blog to options.blog if set in options', function() {
+		var auth = wpOAuth( 'foobar', { blog: 'barfoo' } );
+		expect( auth.params.blog ).to.equal( 'barfoo' );
+	} );
+
 } );
 
 describe( 'wpOAuth.request()', function() {
@@ -80,6 +85,12 @@ describe( 'wpOAuth.request()', function() {
 		var auth = wpOAuth( 'foobar', { scope: 'barfoo' } );
 		auth.request();
 		expect( wpOAuth.setCurrentUrl ).to.have.been.calledWithMatch( /\?.*?scope=barfoo/ );
+	} );
+
+	it ( 'includes the blog in the redirect URL query string', function() {
+		var auth = wpOAuth( 'foobar', { blog: 'barfoo' } );
+		auth.request();
+		expect( wpOAuth.setCurrentUrl ).to.have.been.calledWithMatch( /\?.*?blog=barfoo/ );
 	} );
 
 	it ( 'includes the client_id in the redirect URL query string', function() {
