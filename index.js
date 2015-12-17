@@ -20,6 +20,11 @@ var authorizeEndpoint = 'https://public-api.wordpress.com/oauth2/authorize';
 exports = module.exports = wpOAuth;
 
 /**
+ * Keep a local cache in case localStorage is not available
+ */
+var localCache = {};
+
+/**
  * Handle WordPress.com Implicit Open Authentication
  *
  * @param {String} client_id
@@ -50,6 +55,31 @@ function wpOAuth(client_id, opts){
   if (opts.scope) params.scope = opts.scope;
 
   return wpOAuth;
+}
+
+/**
+ * Returns current localStorage value for a key
+ *
+ * @param {String} key
+ * @api private
+ */
+
+exports.getLocalStorageValue = function( key ) {
+  if (typeof localStorage !== 'undefined') return localStorage.getItem(key);
+  return localCache[key];
+}
+
+/**
+ * Saves new key-value pair to localStorage
+ *
+ * @param {String} key
+ * @param {Object} value
+ * @api private
+ */
+
+exports.setLocalStorageValue = function( key, value ) {
+  if (typeof localStorage !== 'undefined') localStorage.setItem(key, value);
+  localCache[key] = value;
 }
 
 /**
@@ -96,15 +126,15 @@ exports.get = function(fn){
   if (hash && hash.access_token) {
     // Token is present in current URI
     // store access_token
-    localStorage.wp_oauth = JSON.stringify(hash);
+    exports.setLocalStorageValue('wp_oauth', JSON.stringify(hash));
 
     // clean hash from current URI
     exports.setCurrentUrl(exports.getCurrentUrl().replace(/\#.*$/, ''));
-  } else if (!localStorage.wp_oauth) {
+  } else if (!exports.getLocalStorageValue('wp_oauth')) {
     return exports.request();
   }
 
-  fn(JSON.parse(localStorage.wp_oauth));
+  fn(JSON.parse(exports.getLocalStorageValue('wp_oauth')));
 };
 
 /**
@@ -115,7 +145,7 @@ exports.get = function(fn){
 
 exports.clean = function(){
   debug('clean');
-  delete localStorage.wp_oauth;
+  exports.setLocalStorageValue('wp_oauth', null);
 };
 
 /**
@@ -147,5 +177,5 @@ exports.reset = function(){
  */
 
 exports.token = function(){
-  return localStorage.wp_oauth ? JSON.parse(localStorage.wp_oauth) : null;
+  return exports.getLocalStorageValue('wp_oauth') ? JSON.parse(exports.getLocalStorageValue('wp_oauth')) : null;
 };
