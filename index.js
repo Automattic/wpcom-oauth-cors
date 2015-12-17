@@ -44,12 +44,34 @@ function wpOAuth(client_id, opts){
   };
 
   // options - `Redirect URL`
-  params.redirect_uri = opts.redirect || location.href.replace(/\#.*$/, '');
+  params.redirect_uri = opts.redirect || exports.getCurrentUrl().replace(/\#.*$/, '');
   debug('Redirect_URL: %o', params.redirect_uri);
 
   if (opts.scope) params.scope = opts.scope;
 
   return wpOAuth;
+}
+
+/**
+ * Returns current browser window URL as a string
+ *
+ * @api private
+ */
+
+exports.getCurrentUrl = function() {
+  if (typeof window !== 'undefined') return window.location.href;
+  return '';
+}
+
+/**
+ * Changes current browser window URL
+ *
+ * @param {String} url
+ * @api private
+ */
+
+exports.setCurrentUrl = function( url ) {
+  if (typeof window !== 'undefined') window.location = url;
 }
 
 /**
@@ -63,7 +85,7 @@ exports.get = function(fn){
   fn = fn || function(){};
 
   // get url parsed object
-  var url_parsed = url.parse(location.href, true);
+  var url_parsed = url.parse(exports.getCurrentUrl(), true);
 
   // get hash object
   var hash;
@@ -77,7 +99,7 @@ exports.get = function(fn){
     localStorage.wp_oauth = JSON.stringify(hash);
 
     // clean hash from current URI
-    window.location = location.href.replace(/\#.*$/, '');
+    exports.setCurrentUrl(exports.getCurrentUrl().replace(/\#.*$/, ''));
   } else if (!localStorage.wp_oauth) {
     return exports.request();
   }
@@ -106,7 +128,7 @@ exports.request = function(){
   // redirect to OAuth page
   var redirect = authorizeEndpoint + '?' + querystring.stringify(exports.params);
   debug('Redirect url: %o', redirect);
-  window.location = redirect;
+  exports.setCurrentUrl(redirect);
 };
 
 /**
