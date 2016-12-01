@@ -49,6 +49,11 @@ function wpOAuth(client_id, opts){
     response_type: opts.response_type || 'token'
   };
 
+  // include state if in opts
+  if ( opts.hasOwnProperty( 'state' ) ) {
+    params.state = opts.state;
+  }
+
   // options - `Redirect URL`
   params.redirect_uri = opts.redirect || exports.getCurrentUrl().replace(/\#.*$/, '');
   debug('Redirect_URL: %o', params.redirect_uri);
