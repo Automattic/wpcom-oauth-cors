@@ -1,4 +1,12 @@
 
+1.0.1 / 2016-12-02
+==================
+
+ * Include state parameter option
+ * Add/improve tests
+ * Add blog option to wpOAuth
+ * Update README to include blog param
+
 1.0.0 / 2015-04-09
 ==================
 
