@@ -6,7 +6,7 @@
 
 var url = require('url');
 var querystring = require('querystring');
-var debug = require('debug')('wpcom-oauth-cors');
+var debug = require('debug')('wpcom-oauth');
 
 /**
  * Authotize WordPress.com endpoint
@@ -19,6 +19,11 @@ var authorizeEndpoint = 'https://public-api.wordpress.com/oauth2/authorize';
  */
 
 exports = module.exports = wpOAuth;
+
+/**
+ * Keep a local cache in case localStorage is not available
+ */
+var localCache = {};
 
 /**
  * Handle WordPress.com Implicit Open Authentication
@@ -41,16 +46,69 @@ function wpOAuth(client_id, opts){
   // authentication request params
   var params = exports.params = {
     client_id: client_id,
+    blog: opts.blog,
     response_type: opts.response_type || 'token'
   };
 
+  // include state if in opts
+  if ( opts.hasOwnProperty( 'state' ) ) {
+    params.state = opts.state;
+  }
+
   // options - `Redirect URL`
-  params.redirect_uri = opts.redirect || location.href.replace(/\#.*$/, '');
+  params.redirect_uri = opts.redirect || exports.getCurrentUrl().replace(/\#.*$/, '');
   debug('Redirect_URL: %o', params.redirect_uri);
 
   if (opts.scope) params.scope = opts.scope;
 
   return wpOAuth;
+}
+
+/**
+ * Returns current localStorage value for a key
+ *
+ * @param {String} key
+ * @api private
+ */
+
+exports.getLocalStorageValue = function( key ) {
+  if (typeof localStorage !== 'undefined') return localStorage.getItem(key);
+  return localCache[key];
+}
+
+/**
+ * Saves new key-value pair to localStorage
+ *
+ * @param {String} key
+ * @param {Object} value
+ * @api private
+ */
+
+exports.setLocalStorageValue = function( key, value ) {
+  if (typeof localStorage !== 'undefined') localStorage.setItem(key, value);
+  localCache[key] = value;
+}
+
+/**
+ * Returns current browser window URL as a string
+ *
+ * @api private
+ */
+
+exports.getCurrentUrl = function() {
+  if (typeof window !== 'undefined') return window.location.href;
+  return '';
+}
+
+/**
+ * Changes current browser window URL
+ *
+ * @param {String} url
+ * @api private
+ */
+
+exports.setCurrentUrl = function( url ) {
+  if (typeof window !== 'undefined') window.location = url;
 }
 
 /**
@@ -64,7 +122,7 @@ exports.get = function(fn){
   fn = fn || function(){};
 
   // get url parsed object
-  var url_parsed = url.parse(location.href, true);
+  var url_parsed = url.parse(exports.getCurrentUrl(), true);
 
   // get hash object
   var hash;
@@ -75,15 +133,15 @@ exports.get = function(fn){
   if (hash && hash.access_token) {
     // Token is present in current URI
     // store access_token
-    localStorage.wp_oauth = JSON.stringify(hash);
+    exports.setLocalStorageValue('wp_oauth', JSON.stringify(hash));
 
     // clean hash from current URI
-    window.location = location.href.replace(/\#.*$/, '');
-  } else if (!localStorage.wp_oauth) {
+    exports.setCurrentUrl(exports.getCurrentUrl().replace(/\#.*$/, ''));
+  } else if (!exports.getLocalStorageValue('wp_oauth')) {
     return exports.request();
   }
 
-  fn(JSON.parse(localStorage.wp_oauth));
+  fn(JSON.parse(exports.getLocalStorageValue('wp_oauth')));
 };
 
 /**
@@ -94,7 +152,7 @@ exports.get = function(fn){
 
 exports.clean = function(){
   debug('clean');
-  delete localStorage.wp_oauth;
+  exports.setLocalStorageValue('wp_oauth', null);
 };
 
 /**
@@ -107,7 +165,7 @@ exports.request = function(){
   // redirect to OAuth page
   var redirect = authorizeEndpoint + '?' + querystring.stringify(exports.params);
   debug('Redirect url: %o', redirect);
-  window.location = redirect;
+  exports.setCurrentUrl(redirect);
 };
 
 /**
@@ -126,7 +184,7 @@ exports.reset = function(){
  */
 
 exports.token = function(){
-  return localStorage.wp_oauth ? JSON.parse(localStorage.wp_oauth) : null;
+  return exports.getLocalStorageValue('wp_oauth') ? JSON.parse(exports.getLocalStorageValue('wp_oauth')) : null;
 };
 
 },{"debug":7,"querystring":5,"url":6}],2:[function(require,module,exports){
@@ -1995,7 +2053,7 @@ function plural(ms, n, name) {
  * Module dependencies.
  */
 
-var wpOAuth = require('../')('37508');  // -< complete your client_id
+var wpOAuth = require('../')('');  // -< complete your client_id
 
 wpOAuth.get(function(auth){
   document.getElementById('token').innerHTML = auth.access_token;
@@ -2003,7 +2061,6 @@ wpOAuth.get(function(auth){
 
 document.getElementById('reset').onclick = function(e) {
   wpOAuth.clean();
-  //wpOAuth.request();
 };
 
 console.log('-> wpOAuth.token() -> ', wpOAuth.token());
