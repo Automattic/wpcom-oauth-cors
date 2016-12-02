@@ -41,6 +41,7 @@ Create a wpcomOAuth instance giving `client_id` (String) and optional parameters
 * `blog`
 * `response_type`
 * `scope`
+* `state`
 
 ### wpcomOAuth.get(fn)
 
