@@ -19,7 +19,10 @@ var wpcomOAuth = require('wpcom-oauth-cors')('<client-id>');
 
 // get auth object
 wpcomOAuth.get(function(auth){
-  // your token is here auth.access_token!
+  // Here, your token is available as auth.access_token
+  // e.g.:
+  // var wpcom = require('wpcom');
+  // var wpc = wpcom(auth.access_token);
 });
 
 // clean stored token
@@ -52,6 +55,27 @@ Create a wpcomOAuth instance giving `client_id` (String) and optional parameters
 ### wpcomOAuth.reset()
 
 ### wpcomOAuth.token()
+
+
+## Example
+
+This snippet will log a posts array from site with id `123456`.
+
+```js
+var wpcom = require('wpcom');
+var wpcomOAuth = require('wpcom-oauth-cors')('<client-id>');
+
+// get auth object
+wpcomOAuth.get(function(auth){
+  // Here, your token is available as auth.access_token
+  var wpc = wpcom( auth.access_token );
+  var mySite = wpc.site( 123456 );
+  mySite.postsList({ number: 50, fields: "author,URL,title,geo" }, function(err, list) {
+	  console.log( list );
+  });
+});
+
+```
 
 ## Test
 
