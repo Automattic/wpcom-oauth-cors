@@ -1,9 +1,9 @@
 {
   "name": "wpcom-oauth-cors",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "WordPress.com implicit OAuth2 client-side authorization module",
   "dependencies": {
-    "debug": "2.1.0"
+    "debug": "3.1.0"
   },
   "author": "Automattic, Inc.",
   "contributors": [
